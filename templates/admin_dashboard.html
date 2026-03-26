@@ -1,85 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CRM Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
 <div class="sidebar">
-    <h2>CRM</h2>
-
-    <p class="menu-title">TRADER'S MENU</p>
-    <a href="#">Accounts</a>
-    <a href="#">Funds</a>
-    <a href="#">Profile</a>
-    <a href="#">Downloads</a>
-
-    <p class="menu-title">IB MENU</p>
-    <a href="#">Dashboard</a>
-    <a href="#">Reports</a>
+<h2>CRM</h2>
+<a>Dashboard</a>
+<a>Clients</a>
 </div>
 
 <div class="main">
 
-    <div class="topbar">
-        <h2 id="crmName">Sky Links Capital</h2>
-        <button onclick="editName()">Edit</button>
-    </div>
+<div class="topbar">
+<h2 id="crmName">Sky Links Capital</h2>
+<button onclick="editName()">Edit</button>
+</div>
 
-    <h3>Welcome, Admin</h3>
+<!-- ADD CLIENT -->
+<form action="/add" method="post">
+<input name="name" placeholder="Name">
+<input name="email" placeholder="Email">
+<button>Add Client</button>
+</form>
 
-    <!-- Wallet -->
-    <div class="cards">
-        <div class="card">
-            <h4>IB Wallet</h4>
-            <p>32.00 USD</p>
-        </div>
+<table>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Action</th>
+</tr>
 
-        <div class="card">
-            <h4>Referrals</h4>
-            <p>19</p>
-        </div>
+{% for client in clients %}
+<tr>
+<td>{{ client.name }}</td>
+<td>{{ client.email }}</td>
+<td>
+<a href="/edit/{{ client.id }}">Edit</a>
+<a href="/delete/{{ client.id }}">Delete</a>
+</td>
+</tr>
+{% endfor %}
 
-        <div class="card">
-            <h4>FTD</h4>
-            <p>10 (53%)</p>
-        </div>
-    </div>
-
-    <!-- Clients Table -->
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Country</th>
-            <th>Deposit</th>
-            <th>Volume</th>
-            <th>Action</th>
-        </tr>
-
-        {% for client in clients %}
-        <tr>
-            <td>{{ client.name }}</td>
-            <td>UAE</td>
-            <td>0.00</td>
-            <td>0.00</td>
-            <td><a href="/edit/{{ client.id }}">Edit</a></td>
-        </tr>
-        {% endfor %}
-
-    </table>
+</table>
 
 </div>
 
 <script>
-function editName() {
-    let name = prompt("Enter new CRM name:");
-    if(name){
-        document.getElementById("crmName").innerText = name;
-    }
+function editName(){
+let name = prompt("Enter CRM Name:");
+if(name){
+document.getElementById("crmName").innerText = name;
+}
 }
 </script>
 
 </body>
 </html>
+

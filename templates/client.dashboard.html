@@ -1,36 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Client Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
 <div class="sidebar">
-    <h2>CRM</h2>
-    <a href="#">Dashboard</a>
-    <a href="#">Funds</a>
+<h2>CRM</h2>
 </div>
 
 <div class="main">
-
-    <div class="topbar">
-        <h2>Client Panel</h2>
-    </div>
-
-    <div class="cards">
-        <div class="card">
-            <h4>Name</h4>
-            <p>{{ client.name }}</p>
-        </div>
-
-        <div class="card">
-            <h4>Email</h4>
-            <p>{{ client.email }}</p>
-        </div>
-    </div>
-
+<h2>Client Dashboard</h2>
+<p>Name: {{ client.name }}</p>
+<p>Email: {{ client.email }}</p>
 </div>
 
 </body>

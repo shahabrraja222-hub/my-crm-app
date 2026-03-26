@@ -3,37 +3,48 @@ import os
 
 app = Flask(__name__)
 
-# Dummy clients data
 clients = [
     {"id": 1, "name": "Ali", "email": "ali@gmail.com"},
     {"id": 2, "name": "Ahmed", "email": "ahmed@gmail.com"}
 ]
 
-# Home route (IMPORTANT for Render)
 @app.route("/")
 def home():
     return render_template("login.html")
 
-
-# Login system
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form.get("username")
     password = request.form.get("password")
 
-    # Admin login
     if username == "admin" and password == "admin123":
         return render_template("admin_dashboard.html", clients=clients)
 
-    # Client login
     for client in clients:
         if username == client["name"] and password == "123":
             return render_template("client_dashboard.html", client=client)
 
-    return "Invalid credentials"
+    return "Invalid login"
 
 
-# Edit client
+@app.route("/add", methods=["POST"])
+def add_client():
+    name = request.form.get("name")
+    email = request.form.get("email")
+
+    new_id = len(clients) + 1
+    clients.append({"id": new_id, "name": name, "email": email})
+
+    return redirect(url_for("home"))
+
+
+@app.route("/delete/<int:id>")
+def delete_client(id):
+    global clients
+    clients = [c for c in clients if c["id"] != id]
+    return redirect(url_for("home"))
+
+
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_client(id):
     for client in clients:
@@ -44,10 +55,9 @@ def edit_client(id):
                 return redirect(url_for("home"))
             return render_template("edit_client.html", client=client)
 
-    return "Client not found"
+    return "Not found"
 
 
-# Run server (Render compatible)
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
