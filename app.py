@@ -3,16 +3,19 @@ import os
 
 app = Flask(__name__)
 
-# Dummy clients data (temporary)
+# Dummy clients data
 clients = [
     {"id": 1, "name": "Ali", "email": "ali@gmail.com"},
     {"id": 2, "name": "Ahmed", "email": "ahmed@gmail.com"}
 ]
 
+# Home route (IMPORTANT for Render)
 @app.route("/")
 def home():
     return render_template("login.html")
 
+
+# Login system
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form.get("username")
@@ -29,6 +32,8 @@ def login():
 
     return "Invalid credentials"
 
+
+# Edit client
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_client(id):
     for client in clients:
@@ -41,7 +46,10 @@ def edit_client(id):
 
     return "Client not found"
 
+
+# Run server (Render compatible)
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
